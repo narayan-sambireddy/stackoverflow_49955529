@@ -33,15 +33,15 @@ public class Demo4BrettApp {
 
 	@PutMapping("products/{productId}")
 	public ProductResponse updateProduct(
-			@PathVariable("productId") Long productId,
-			@Validated @RequestBody ProductForm productForm) throws Exception { 
-		// @Validated will take care of incorporating validation rules on incoming ProductForm JSON request body
-		Optional<Product> foundProductOpt = productRepository.findById(productId);
-		Product foundProduct = foundProductOpt.orElseThrow(() -> new EntityNotFoundException("productId" + productId + "not found."));
-		org.apache.commons.beanutils.BeanUtils.copyProperties(foundProduct, productForm);
-		productRepository.save(foundProduct);
+		@PathVariable("productId") Long productId,
+		@Validated @RequestBody ProductForm productForm) throws Exception { 
+	// @Validated will take care of incorporating validation rules on incoming ProductForm JSON request body
+	Optional<Product> foundProductOpt = productRepository.findById(productId);
+	Product foundProduct = foundProductOpt.orElseThrow(() -> new EntityNotFoundException("productId" + productId + "not found."));
+	org.apache.commons.beanutils.BeanUtils.copyProperties(foundProduct, productForm);
+	productRepository.save(foundProduct);
 
-		return new ProductResponse(null, "product updated");
+	return new ProductResponse(null, "product updated");
 	}
 	
 	@ExceptionHandler(Exception.class)
